@@ -41,11 +41,12 @@ CloudTask is a cloud-native, full-stack task and project management platform des
 
 ## 🔹 Project Structure
 
+```text
 cloudtask/
-├── frontend/ # React frontend
-├── backend/ # Spring Boot backend services
-├── docker/ # Docker configurations
-├── docs/ # Architecture & API documentation
+├── frontend/   # React frontend
+├── backend/    # Spring Boot backend services
+├── docker/     # Docker configurations
+├── docs/       # Architecture & API documentation
 
 
 ---
