@@ -1,18 +1,47 @@
-# Node
+# ===============================
+# FRONTEND (React / Vite)
+# ===============================
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.env*
+frontend/*.local
+!frontend/.env.example
+
+# ===============================
+# BACKEND (Spring Boot)
+# ===============================
+backend/target/
+backend/.env*
+backend/*.log
+
+# ===============================
+# NODE / GENERAL
+# ===============================
 node_modules/
 dist/
-
-# Java
-target/
 *.log
 
-# Env
+# ===============================
+# ENV FILES
+# ===============================
 .env
 .env.local
 
-# IDE
+# ===============================
+# IDE / EDITORS
+# ===============================
 .idea/
 .vscode/
+.vscode/*
+!.vscode/extensions.json
 
+# ===============================
 # OS
+# ===============================
 .DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
