@@ -3,8 +3,10 @@ import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import ProjectDetail from "./pages/ProjectDetail";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { useAuth } from "./auth/useAuth";
+
 
 const App = () => {
   return (
@@ -24,6 +26,15 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        
+        <Route
+          path="/project/:id"
+          element={
+            <ProtectedRoute>
+              <ProjectDetail />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Catch all */}
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -32,15 +43,18 @@ const App = () => {
   );
 };
 
+
 // Redirect to dashboard if already logged in
 function LoginRedirect() {
   const { user } = useAuth();
   return user ? <Navigate to="/dashboard" replace /> : <Login />;
 }
 
+
 function RegisterRedirect() {
   const { user } = useAuth();
   return user ? <Navigate to="/dashboard" replace /> : <Register />;
 }
+
 
 export default App;
