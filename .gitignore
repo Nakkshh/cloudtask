@@ -46,6 +46,7 @@ yarn-error.log*
 # ===============================
 .env.local
 .env.*.local
+.env
 # DO NOT ignore .env.production - needed for deployment
 
 
