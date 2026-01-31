@@ -1,4 +1,4 @@
-# CloudTask <img src="public/cloudtask-icon.svg" alt="CloudTask" width="40" height="40" style="vertical-align: middle;"/>
+# CloudTask <img src="frontend/public/cloudtask-icon.svg" alt="CloudTask" width="40" height="40" style="vertical-align: middle;"/>
 
 > Cloud-native task and project management platform with role-based access control and real-time collaboration.
 
