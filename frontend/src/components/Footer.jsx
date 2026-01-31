@@ -41,7 +41,7 @@ const Footer = () => {
               </li>
               <li>
                 <a 
-                  href="https://github.com/nakkshh/cloudtask/docs" 
+                  href="https://github.com/Nakkshh/cloudtask/tree/main/docs" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="hover:text-gray-900 transition-colors inline-flex items-center gap-2"
@@ -54,7 +54,7 @@ const Footer = () => {
               </li>
               <li>
                 <a 
-                  href="https://github.com/nakkshh/cloudtask/README.md" 
+                  href="https://github.com/Nakkshh/cloudtask/blob/main/README.md" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="hover:text-gray-900 transition-colors inline-flex items-center gap-2"
