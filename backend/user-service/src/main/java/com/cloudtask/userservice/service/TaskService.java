@@ -31,7 +31,7 @@ public class TaskService {
     // ========================================
 
     @Transactional
-    public Task createTask(String title, String description, Long projectId) {
+    public Task createTask(String title, String description, Long projectId, String createdBy) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found"));
 
@@ -39,6 +39,7 @@ public class TaskService {
         task.setTitle(title);
         task.setDescription(description);
         task.setProject(project);
+        task.setCreatedBy(createdBy);  // ✅ NEW: Track who created the task
         task.setStatus("TODO");
         task.setCreatedAt(LocalDateTime.now());
         task.setUpdatedAt(LocalDateTime.now());
@@ -357,5 +358,69 @@ public class TaskService {
         
         // Convert ENUM to String
         return memberOpt.get().getRole().name();
+    }
+
+        // ========================================
+    // DELETE PERMISSIONS (NEW)
+    // ========================================
+    
+    /**
+     * Delete task with role-based permissions
+     * - OWNER & ADMIN: Can delete ANY task
+     * - MEMBER: Can delete only tasks created by them
+     */
+    @Transactional
+    public void deleteTaskWithPermission(Long taskId, String firebaseUid) {
+        // Find the task
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new RuntimeException("Task not found with id: " + taskId));
+        
+        // Get project and user role
+        Long projectId = task.getProject().getId();
+        String userRole = getUserRole(projectId, firebaseUid);
+        
+        // Check permissions
+        if (userRole.equals("OWNER") || userRole.equals("ADMIN")) {
+            // OWNER and ADMIN can delete any task
+            taskRepository.deleteById(taskId);
+            System.out.println("✅ Task deleted by " + userRole);
+        } else if (userRole.equals("MEMBER")) {
+            // MEMBER can only delete tasks they created
+            if (task.getCreatedBy() != null && task.getCreatedBy().equals(firebaseUid)) {
+                taskRepository.deleteById(taskId);
+                System.out.println("✅ Task deleted by MEMBER (own task)");
+            } else {
+                throw new RuntimeException("Permission denied. Members can only delete tasks created by them.");
+            }
+        } else {
+            throw new RuntimeException("Permission denied. User is not a member of this project.");
+        }
+    }
+    
+    /**
+     * Check if user can delete a specific task
+     */
+    public boolean canDeleteTask(Long taskId, String firebaseUid) {
+        try {
+            Task task = taskRepository.findById(taskId)
+                    .orElseThrow(() -> new RuntimeException("Task not found"));
+            
+            Long projectId = task.getProject().getId();
+            String userRole = getUserRole(projectId, firebaseUid);
+            
+            // OWNER and ADMIN can always delete
+            if (userRole.equals("OWNER") || userRole.equals("ADMIN")) {
+                return true;
+            }
+            
+            // MEMBER can delete only their own tasks
+            if (userRole.equals("MEMBER")) {
+                return task.getCreatedBy() != null && task.getCreatedBy().equals(firebaseUid);
+            }
+            
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

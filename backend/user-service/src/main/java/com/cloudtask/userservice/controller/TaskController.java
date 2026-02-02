@@ -28,11 +28,11 @@ public class TaskController {
     // ========================================
 
     @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("Task API is working! 🚀");
-    }
+        public ResponseEntity<String> test() {
+            return ResponseEntity.ok("Task API is working! 🚀");
+        }
 
-    @PostMapping
+        @PostMapping
     public ResponseEntity<Task> createTask(
             @RequestBody TaskRequest request,
             @RequestParam String firebaseUid
@@ -45,7 +45,8 @@ public class TaskController {
         Task task = taskService.createTask(
                 request.getTitle(),
                 request.getDescription(),
-                request.getProjectId()
+                request.getProjectId(),
+                firebaseUid  // ✅ NEW: Pass creator's UID
         );
         return ResponseEntity.ok(task);
     }
@@ -76,13 +77,19 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(
+    public ResponseEntity<?> deleteTask(
             @PathVariable Long id,
             @RequestParam String firebaseUid
     ) {
-        // TODO: Check if user is admin/owner before deleting
-        taskService.deleteTask(id);
-        return ResponseEntity.noContent().build();
+        try {
+            // ✅ NEW: Use permission-based delete
+            taskService.deleteTaskWithPermission(id, firebaseUid);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(403).body(error);
+        }
     }
 
     // ========================================
