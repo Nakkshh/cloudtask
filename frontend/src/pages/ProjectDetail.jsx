@@ -28,7 +28,8 @@ export default function ProjectDetail() {
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showMemberModal, setShowMemberModal] = useState(false);
-  const [newTask, setNewTask] = useState({ title: "", description: "", assigneeUid: "" });
+  const [newTask, setNewTask] = useState({ title: "", description: "" });
+  const [newTaskAssignees, setNewTaskAssignees] = useState([]);
   const [newMember, setNewMember] = useState({ email: "", role: "MEMBER" });
   const [activeTab, setActiveTab] = useState("tasks");
   const [assigningTask, setAssigningTask] = useState(null);
@@ -63,28 +64,24 @@ export default function ProjectDetail() {
     try {
       const createdTask = await createTask(newTask.title, newTask.description, id, user.uid);
       
-      if (newTask.assigneeUid && createdTask.id) {
-        // ✅ FIX: Find the member and pass their full details
-        const selectedMember = members.find(m => m.firebaseUid === newTask.assigneeUid);
-        
-        const assigneeName = selectedMember?.displayName || selectedMember?.userEmail;
-        const assigneeEmail = selectedMember?.userEmail;
-        
-        console.log('🔍 Assigning task on creation:', {
+      // ✅ NEW: Multi-assignee logic
+      if (newTaskAssignees.length > 0 && createdTask.id) {
+        console.log('🔍 Assigning multiple users to task:', {
           taskId: createdTask.id,
-          assigneeUid: newTask.assigneeUid,
-          assigneeName,
-          assigneeEmail
+          assigneeCount: newTaskAssignees.length
         });
         
-        await assignTask(createdTask.id, newTask.assigneeUid, user.uid, assigneeName, assigneeEmail);
+        await assignMultipleTasks(createdTask.id, newTaskAssignees, user.uid);
       }
       
-      setNewTask({ title: "", description: "", assigneeUid: "" });
+      // Reset form
+      setNewTask({ title: "", description: "" });
+      setNewTaskAssignees([]);
       setShowCreateModal(false);
       loadProjectData();
     } catch (error) {
       console.error("Failed to create task:", error);
+      alert("Failed to create task: " + (error.message || "Unknown error"));
     }
   };
 
@@ -558,12 +555,75 @@ export default function ProjectDetail() {
                 />
               </div>
               
-              {/* Assignee Dropdown */}
-              <AssigneeDropdown
-                members={members}
-                selectedAssignee={newTask.assigneeUid}
-                onAssigneeChange={(uid) => setNewTask({ ...newTask, assigneeUid: uid })}
-              />
+              {/* ✅ NEW: Multi-Assignee Dropdown */}
+              <div>
+                <label className="block text-sm font-bold text-gray-900 mb-2">
+                  Assign To (Optional)
+                </label>
+                
+                {/* Checkbox list */}
+                <div className="border-2 border-gray-200 rounded-2xl p-4 max-h-60 overflow-y-auto">
+                  {members.length === 0 ? (
+                    <p className="text-sm text-gray-400 text-center py-4">No members available</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {members.map(member => {
+                        const isSelected = newTaskAssignees.some(a => a.firebaseUid === member.firebaseUid);
+                        
+                        return (
+                          <label
+                            key={member.firebaseUid}
+                            className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={isSelected}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  // Add member
+                                  setNewTaskAssignees([
+                                    ...newTaskAssignees,
+                                    {
+                                      firebaseUid: member.firebaseUid,
+                                      name: member.displayName || member.userEmail,
+                                      email: member.userEmail,
+                                      photoUrl: member.photoUrl || null
+                                    }
+                                  ]);
+                                } else {
+                                  // Remove member
+                                  setNewTaskAssignees(
+                                    newTaskAssignees.filter(a => a.firebaseUid !== member.firebaseUid)
+                                  );
+                                }
+                              }}
+                              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                            />
+                            <div className="flex items-center gap-2 flex-1">
+                              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                                {(member.displayName || member.userEmail)?.[0]?.toUpperCase()}
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-sm font-semibold text-gray-900">
+                                  {member.displayName || member.userEmail}
+                                </p>
+                                <p className="text-xs text-gray-500">{member.role}</p>
+                              </div>
+                            </div>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+                
+                {/* Selected count */}
+                {newTaskAssignees.length > 0 && (
+                  <p className="text-sm text-blue-600 font-semibold mt-2">
+                    ✓ {newTaskAssignees.length} member{newTaskAssignees.length !== 1 ? 's' : ''} selected
+                  </p>
+                )}
+              </div>
 
               <div className="flex gap-4 pt-4">
                 <button
