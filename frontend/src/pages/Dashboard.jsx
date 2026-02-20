@@ -103,11 +103,11 @@ export default function Dashboard() {
               
               <div className="flex items-center space-x-2 sm:space-x-3">
                 <img 
-                  src="/cloudtask-icon.svg" 
-                  alt="CloudTask" 
+                  src="/nexora-icon.svg" 
+                  alt="Nexora" 
                   className="w-8 h-8 sm:w-10 sm:h-10"
                 />
-                <h1 className="text-2xl font-black text-gray-900">CloudTask</h1>
+                <h1 className="text-2xl font-black text-gray-900">Nexora</h1>
               </div>
             </div>
             {/* User & Logout - Mobile Responsive */}

@@ -8,10 +8,10 @@
 		<version>4.0.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.cloudtask</groupId>
+	<groupId>com.nexora</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>cloudtask-user-service</name>
+	<name>nexora-user-service</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

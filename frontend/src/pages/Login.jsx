@@ -69,12 +69,12 @@ export default function Login() {
         <div className="text-center mb-6 sm:mb-8">
           <div className="flex items-center justify-center mb-3 sm:mb-4">
             <img 
-              src="/cloudtask-icon.svg" 
-              alt="CloudTask Logo" 
+              src="/nexora-icon.svg" 
+              alt="Nexora Logo" 
               className="w-12 h-12 sm:w-16 sm:h-16 animate-bounce-slow"
             />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-gray-900 mb-2">CloudTask</h1>
+          <h1 className="text-2xl sm:text-3xl font-black text-gray-900 mb-2">Nexora</h1>
           <p className="text-sm sm:text-base text-gray-600">Welcome back!</p>
         </div>
         {error && (

@@ -251,11 +251,11 @@ export default function ProjectDetail() {
               </button>
               <div className="flex items-center space-x-3">
                 <img 
-                  src="/cloudtask-icon.svg" 
-                  alt="CloudTask" 
+                  src="/nexora-icon.svg" 
+                  alt="Nexora" 
                   className="w-10 h-10"
                 />
-                <h1 className="text-2xl font-black text-gray-900">CloudTask</h1>
+                <h1 className="text-2xl font-black text-gray-900">Nexora</h1>
               </div>
             </div>
             <div className="flex items-center gap-2 sm:gap-4">

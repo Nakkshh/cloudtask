@@ -9,12 +9,12 @@ const Footer = () => {
           <div>
             <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group mb-4 sm:mb-6">
               <img 
-                src="/cloudtask-icon.svg" 
-                alt="CloudTask" 
+                src="/nexora-icon.svg" 
+                alt="Nexora" 
                 className="w-8 h-8 sm:w-10 sm:h-10 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
               />
               <span className="text-2xl sm:text-3xl font-black text-gray-900">
-                CloudTask
+                Nexora
               </span>
             </Link>
             <p className="text-sm sm:text-base text-gray-600 leading-relaxed max-w-md">
@@ -28,7 +28,7 @@ const Footer = () => {
             <ul className="space-y-2 sm:space-y-3 text-sm sm:text-base text-gray-600">
               <li>
                 <a 
-                  href="https://github.com/nakkshh/cloudtask" 
+                  href="https://github.com/Nakkshh/Nexora" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="hover:text-gray-900 transition-colors inline-flex items-center gap-2"
@@ -41,7 +41,7 @@ const Footer = () => {
               </li>
               <li>
                 <a 
-                  href="https://github.com/Nakkshh/cloudtask/tree/main/docs" 
+                  href="https://github.com/Nakkshh/Nexora/tree/main/docs" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="hover:text-gray-900 transition-colors inline-flex items-center gap-2"
@@ -54,7 +54,7 @@ const Footer = () => {
               </li>
               <li>
                 <a 
-                  href="https://github.com/Nakkshh/cloudtask/blob/main/README.md" 
+                  href="https://github.com/Nakkshh/Nexora/blob/main/README.md" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="hover:text-gray-900 transition-colors inline-flex items-center gap-2"
@@ -76,7 +76,7 @@ const Footer = () => {
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12">
         <div className="text-center text-xs sm:text-sm text-gray-600 flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
-          <p>&copy; 2026 CloudTask. All rights reserved.</p>
+          <p>&copy; 2026 Nexora. All rights reserved.</p>
           <p className="flex items-center gap-2 flex-wrap justify-center">
             Made with <span className="text-red-500">❤️</span> by 
             <a 
